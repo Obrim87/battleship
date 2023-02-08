@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Battleship</title>
+</head>
+<body>
+  <div class="topDiv"><h1 class="mainTitle">Welcome to Battleship</h1></div>
+  <div class="mainDiv">
+    <div class="mainLeft">
+      <label for="shotCoords">Artillery Coordinates</label>
+      <input type="text" name="shotCoords" id="shotCoords">
+      <input type="button" value="Fire!" class='fireBtn'>
+      
+      
+      <div class="deploymentContainer">
+        <input type="button" value="Deploy your fleet" class='deployBtn'>
+        <h3 class='orientationTitle'>Orientation</h3>
+        <input type="radio" name="orientation" id="x" value='x' checked>
+        <input type="radio" name="orientation" id="y" value='y'>
+        <label for="orientation">Horizontal</label>
+        <label for="orientation">Vertical</label>
+      </div>
+    </div>
+    <div class="mainRight">
+      <div class="playerGrid">
+        <div class="playerGridDivLabel">10</div>
+        <div class="playerGridDiv" id='1,10'></div>
+        <div class="playerGridDiv" id='2,10'></div>
+        <div class="playerGridDiv" id='3,10'></div>
+        <div class="playerGridDiv" id='4,10'></div>
+        <div class="playerGridDiv" id='5,10'></div>
+        <div class="playerGridDiv" id='6,10'></div>
+        <div class="playerGridDiv" id='7,10'></div>
+        <div class="playerGridDiv" id='8,10'></div>
+        <div class="playerGridDiv" id='9,10'></div>
+        <div class="playerGridDiv" id='10,10'></div>
+        <div class="playerGridDivLabel">9</div>
+        <div class="playerGridDiv" id='1,9'></div>
+        <div class="playerGridDiv" id='2,9'></div>
+        <div class="playerGridDiv" id='3,9'></div>
+        <div class="playerGridDiv" id='4,9'></div>
+        <div class="playerGridDiv" id='5,9'></div>
+        <div class="playerGridDiv" id='6,9'></div>
+        <div class="playerGridDiv" id='7,9'></div>
+        <div class="playerGridDiv" id='8,9'></div>
+        <div class="playerGridDiv" id='9,9'></div>
+        <div class="playerGridDiv" id='10,9'></div>
+        <div class="playerGridDivLabel">8</div>
+        <div class="playerGridDiv" id='1,8'></div>
+        <div class="playerGridDiv" id='2,8'></div>
+        <div class="playerGridDiv" id='3,8'></div>
+        <div class="playerGridDiv" id='4,8'></div>
+        <div class="playerGridDiv" id='5,8'></div>
+        <div class="playerGridDiv" id='6,8'></div>
+        <div class="playerGridDiv" id='7,8'></div>
+        <div class="playerGridDiv" id='8,8'></div>
+        <div class="playerGridDiv" id='9,8'></div>
+        <div class="playerGridDiv" id='10,8'></div>
+        <div class="playerGridDivLabel">7</div>
+        <div class="playerGridDiv" id='1,7'></div>
+        <div class="playerGridDiv" id='2,7'></div>
+        <div class="playerGridDiv" id='3,7'></div>
+        <div class="playerGridDiv" id='4,7'></div>
+        <div class="playerGridDiv" id='5,7'></div>
+        <div class="playerGridDiv" id='6,7'></div>
+        <div class="playerGridDiv" id='7,7'></div>
+        <div class="playerGridDiv" id='8,7'></div>
+        <div class="playerGridDiv" id='9,7'></div>
+        <div class="playerGridDiv" id='10,7'></div>
+        <div class="playerGridDivLabel">6</div>
+        <div class="playerGridDiv" id='1,6'></div>
+        <div class="playerGridDiv" id='2,6'></div>
+        <div class="playerGridDiv" id='3,6'></div>
+        <div class="playerGridDiv" id='4,6'></div>
+        <div class="playerGridDiv" id='5,6'></div>
+        <div class="playerGridDiv" id='6,6'></div>
+        <div class="playerGridDiv" id='7,6'></div>
+        <div class="playerGridDiv" id='8,6'></div>
+        <div class="playerGridDiv" id='9,6'></div>
+        <div class="playerGridDiv" id='10,6'></div>
+        <div class="playerGridDivLabel">5</div>
+        <div class="playerGridDiv" id='1,5'></div>
+        <div class="playerGridDiv" id='2,5'></div>
+        <div class="playerGridDiv" id='3,5'></div>
+        <div class="playerGridDiv" id='4,5'></div>
+        <div class="playerGridDiv" id='5,5'></div>
+        <div class="playerGridDiv" id='6,5'></div>
+        <div class="playerGridDiv" id='7,5'></div>
+        <div class="playerGridDiv" id='8,5'></div>
+        <div class="playerGridDiv" id='9,5'></div>
+        <div class="playerGridDiv" id='10,5'></div>
+        <div class="playerGridDivLabel">4</div>
+        <div class="playerGridDiv" id='1,4'></div>
+        <div class="playerGridDiv" id='2,4'></div>
+        <div class="playerGridDiv" id='3,4'></div>
+        <div class="playerGridDiv" id='4,4'></div>
+        <div class="playerGridDiv" id='5,4'></div>
+        <div class="playerGridDiv" id='6,4'></div>
+        <div class="playerGridDiv" id='7,4'></div>
+        <div class="playerGridDiv" id='8,4'></div>
+        <div class="playerGridDiv" id='9,4'></div>
+        <div class="playerGridDiv" id='10,4'></div>
+        <div class="playerGridDivLabel">3</div>
+        <div class="playerGridDiv" id='1,3'></div>
+        <div class="playerGridDiv" id='2,3'></div>
+        <div class="playerGridDiv" id='3,3'></div>
+        <div class="playerGridDiv" id='4,3'></div>
+        <div class="playerGridDiv" id='5,3'></div>
+        <div class="playerGridDiv" id='6,3'></div>
+        <div class="playerGridDiv" id='7,3'></div>
+        <div class="playerGridDiv" id='8,3'></div>
+        <div class="playerGridDiv" id='9,3'></div>
+        <div class="playerGridDiv" id='10,3'></div>
+        <div class="playerGridDivLabel">2</div>
+        <div class="playerGridDiv" id='1,2'></div>
+        <div class="playerGridDiv" id='2,2'></div>
+        <div class="playerGridDiv" id='3,2'></div>
+        <div class="playerGridDiv" id='4,2'></div>
+        <div class="playerGridDiv" id='5,2'></div>
+        <div class="playerGridDiv" id='6,2'></div>
+        <div class="playerGridDiv" id='7,2'></div>
+        <div class="playerGridDiv" id='8,2'></div>
+        <div class="playerGridDiv" id='9,2'></div>
+        <div class="playerGridDiv" id='10,2'></div>
+        <div class="playerGridDivLabel">1</div>
+        <div class="playerGridDiv" id='1,1'></div>
+        <div class="playerGridDiv" id='2,1'></div>
+        <div class="playerGridDiv" id='3,1'></div>
+        <div class="playerGridDiv" id='4,1'></div>
+        <div class="playerGridDiv" id='5,1'></div>
+        <div class="playerGridDiv" id='6,1'></div>
+        <div class="playerGridDiv" id='7,1'></div>
+        <div class="playerGridDiv" id='8,1'></div>
+        <div class="playerGridDiv" id='9,1'></div>
+        <div class="playerGridDiv" id='10,1'></div>
+        <div class="playerGridDiv"></div>
+        <div class="playerGridDivLabel">A</div>
+        <div class="playerGridDivLabel">B</div>
+        <div class="playerGridDivLabel">C</div>
+        <div class="playerGridDivLabel">D</div>
+        <div class="playerGridDivLabel">E</div>
+        <div class="playerGridDivLabel">F</div>
+        <div class="playerGridDivLabel">G</div>
+        <div class="playerGridDivLabel">H</div>
+        <div class="playerGridDivLabel">I</div>
+        <div class="playerGridDivLabel">J</div>
+      </div>
+      <div class="computerGrid">
+        <div class="computerGridDivLabel">10</div>
+        <div class="computerGridDiv" id='1,10'></div>
+        <div class="computerGridDiv" id='2,10'></div>
+        <div class="computerGridDiv" id='3,10'></div>
+        <div class="computerGridDiv" id='4,10'></div>
+        <div class="computerGridDiv" id='5,10'></div>
+        <div class="computerGridDiv" id='6,10'></div>
+        <div class="computerGridDiv" id='7,10'></div>
+        <div class="computerGridDiv" id='8,10'></div>
+        <div class="computerGridDiv" id='9,10'></div>
+        <div class="computerGridDiv" id='10,10'></div>
+        <div class="computerGridDivLabel">9</div>
+        <div class="computerGridDiv" id='1,9'></div>
+        <div class="computerGridDiv" id='2,9'></div>
+        <div class="computerGridDiv" id='3,9'></div>
+        <div class="computerGridDiv" id='4,9'></div>
+        <div class="computerGridDiv" id='5,9'></div>
+        <div class="computerGridDiv" id='6,9'></div>
+        <div class="computerGridDiv" id='7,9'></div>
+        <div class="computerGridDiv" id='8,9'></div>
+        <div class="computerGridDiv" id='9,9'></div>
+        <div class="computerGridDiv" id='10,9'></div>
+        <div class="computerGridDivLabel">8</div>
+        <div class="computerGridDiv" id='1,8'></div>
+        <div class="computerGridDiv" id='2,8'></div>
+        <div class="computerGridDiv" id='3,8'></div>
+        <div class="computerGridDiv" id='4,8'></div>
+        <div class="computerGridDiv" id='5,8'></div>
+        <div class="computerGridDiv" id='6,8'></div>
+        <div class="computerGridDiv" id='7,8'></div>
+        <div class="computerGridDiv" id='8,8'></div>
+        <div class="computerGridDiv" id='9,8'></div>
+        <div class="computerGridDiv" id='10,8'></div>
+        <div class="computerGridDivLabel">7</div>
+        <div class="computerGridDiv" id='1,7'></div>
+        <div class="computerGridDiv" id='2,7'></div>
+        <div class="computerGridDiv" id='3,7'></div>
+        <div class="computerGridDiv" id='4,7'></div>
+        <div class="computerGridDiv" id='5,7'></div>
+        <div class="computerGridDiv" id='6,7'></div>
+        <div class="computerGridDiv" id='7,7'></div>
+        <div class="computerGridDiv" id='8,7'></div>
+        <div class="computerGridDiv" id='9,7'></div>
+        <div class="computerGridDiv" id='10,7'></div>
+        <div class="computerGridDivLabel">6</div>
+        <div class="computerGridDiv" id='1,6'></div>
+        <div class="computerGridDiv" id='2,6'></div>
+        <div class="computerGridDiv" id='3,6'></div>
+        <div class="computerGridDiv" id='4,6'></div>
+        <div class="computerGridDiv" id='5,6'></div>
+        <div class="computerGridDiv" id='6,6'></div>
+        <div class="computerGridDiv" id='7,6'></div>
+        <div class="computerGridDiv" id='8,6'></div>
+        <div class="computerGridDiv" id='9,6'></div>
+        <div class="computerGridDiv" id='10,6'></div>
+        <div class="computerGridDivLabel">5</div>
+        <div class="computerGridDiv" id='1,5'></div>
+        <div class="computerGridDiv" id='2,5'></div>
+        <div class="computerGridDiv" id='3,5'></div>
+        <div class="computerGridDiv" id='4,5'></div>
+        <div class="computerGridDiv" id='5,5'></div>
+        <div class="computerGridDiv" id='6,5'></div>
+        <div class="computerGridDiv" id='7,5'></div>
+        <div class="computerGridDiv" id='8,5'></div>
+        <div class="computerGridDiv" id='9,5'></div>
+        <div class="computerGridDiv" id='10,5'></div>
+        <div class="computerGridDivLabel">4</div>
+        <div class="computerGridDiv" id='1,4'></div>
+        <div class="computerGridDiv" id='2,4'></div>
+        <div class="computerGridDiv" id='3,4'></div>
+        <div class="computerGridDiv" id='4,4'></div>
+        <div class="computerGridDiv" id='5,4'></div>
+        <div class="computerGridDiv" id='6,4'></div>
+        <div class="computerGridDiv" id='7,4'></div>
+        <div class="computerGridDiv" id='8,4'></div>
+        <div class="computerGridDiv" id='9,4'></div>
+        <div class="computerGridDiv" id='10,4'></div>
+        <div class="computerGridDivLabel">3</div>
+        <div class="computerGridDiv" id='1,3'></div>
+        <div class="computerGridDiv" id='2,3'></div>
+        <div class="computerGridDiv" id='3,3'></div>
+        <div class="computerGridDiv" id='4,3'></div>
+        <div class="computerGridDiv" id='5,3'></div>
+        <div class="computerGridDiv" id='6,3'></div>
+        <div class="computerGridDiv" id='7,3'></div>
+        <div class="computerGridDiv" id='8,3'></div>
+        <div class="computerGridDiv" id='9,3'></div>
+        <div class="computerGridDiv" id='10,3'></div>
+        <div class="computerGridDivLabel">2</div>
+        <div class="computerGridDiv" id='1,2'></div>
+        <div class="computerGridDiv" id='2,2'></div>
+        <div class="computerGridDiv" id='3,2'></div>
+        <div class="computerGridDiv" id='4,2'></div>
+        <div class="computerGridDiv" id='5,2'></div>
+        <div class="computerGridDiv" id='6,2'></div>
+        <div class="computerGridDiv" id='7,2'></div>
+        <div class="computerGridDiv" id='8,2'></div>
+        <div class="computerGridDiv" id='9,2'></div>
+        <div class="computerGridDiv" id='10,2'></div>
+        <div class="computerGridDivLabel">1</div>
+        <div class="computerGridDiv" id='1,1'></div>
+        <div class="computerGridDiv" id='2,1'></div>
+        <div class="computerGridDiv" id='3,1'></div>
+        <div class="computerGridDiv" id='4,1'></div>
+        <div class="computerGridDiv" id='5,1'></div>
+        <div class="computerGridDiv" id='6,1'></div>
+        <div class="computerGridDiv" id='7,1'></div>
+        <div class="computerGridDiv" id='8,1'></div>
+        <div class="computerGridDiv" id='9,1'></div>
+        <div class="computerGridDiv" id='10,1'></div>
+        <div class="computerGridDiv"></div>
+        <div class="computerGridDivLabel">A</div>
+        <div class="computerGridDivLabel">B</div>
+        <div class="computerGridDivLabel">C</div>
+        <div class="computerGridDivLabel">D</div>
+        <div class="computerGridDivLabel">E</div>
+        <div class="computerGridDivLabel">F</div>
+        <div class="computerGridDivLabel">G</div>
+        <div class="computerGridDivLabel">H</div>
+        <div class="computerGridDivLabel">I</div>
+        <div class="computerGridDivLabel">J</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottomDiv">
+    <div class="console">
+      <span class="consoleMessage"></span>
+    </div>
+  </div>
+
+  <script src="battleship.js" type='module'></script>
+</body>
+</html>

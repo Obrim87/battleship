@@ -1,0 +1,50 @@
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+.mainDiv {
+  display: grid;
+  height: 80vh;
+  grid-template-columns: 1fr 3fr;
+}
+
+.deploymentContainer {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  justify-content: center;
+  padding: 50px;
+}
+
+.deployBtn {
+  grid-column: 1 / 3;
+  width: 180px;
+  justify-self: center;
+}
+
+.orientationTitle {
+  grid-column: 1 / 3;
+  justify-self: center;
+}
+
+.deploymentContainer label {
+  justify-self: center;
+  padding: 10px;
+}
+
+.mainRight {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.playerGrid, .computerGrid {
+  display: grid;
+  grid-template-columns: repeat(11, 50px);
+  grid-template-rows: repeat(11, 50px);
+  grid-gap: 1px;
+  height: 100vh;
+}
+
+.playerGridDiv, .playerGridDivLabel, .computerGridDiv, .computerGridDivLabel {
+  border: 1px black solid;
+  text-align: center;
+}
