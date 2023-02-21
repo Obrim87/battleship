@@ -1,8 +1,9 @@
 let playerGameboard = Gameboard();
 let computerGameboard = Gameboard();
+let turn = 'player';
 
-let player = Player('Mick', playerGameboard.ships, true);
-let computer = Player('Computer', computerGameboard.ships, false);
+// let player = Player('Mick', playerGameboard.ships);
+// let computer = Player('Computer', computerGameboard.ships);
 
 // playerGameboard.receiveAttack(player, [4,8]);
 // computerGameboard.receiveAttack(computer, [5,8]);
@@ -13,7 +14,7 @@ function PlaceShipsInDom() {
   let playerGrid = document.querySelectorAll('.playerGridDiv');
   let playerGridParent = document.querySelector('.playerGrid');
   let deployBtn = document.querySelector('.deployBtn');
-  let consoleMessage = document.querySelector('.consoleMessage');
+  // let consoleMessage = document.querySelector('.consoleMessage');
   let xRadioBtn = document.querySelector('#x');
   let yRadioBtn = document.querySelector('#y');
   let shipIndex = 0;
@@ -34,12 +35,12 @@ function PlaceShipsInDom() {
     let shipOrderArr = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrolBoat'];
     let shipDisplayNameArr = ['Carrier', 'Battleship', 'Destroyer', 'Submarine', 'Patrol Boat'];
     let shipLengthArr = [5, 4, 3, 3, 2];
-    consoleMessage.innerText = `Please deploy your ${shipDisplayNameArr[shipIndex]} (${shipLengthArr[shipIndex]} spaces).`
+    consoleMessage(`Please deploy your ${shipDisplayNameArr[shipIndex]} (${shipLengthArr[shipIndex]} spaces).`, 'player');
     shipType = shipOrderArr[shipIndex];
     shipIndex = (shipIndex + 1) % (shipOrderArr.length);
     if (Object.keys(playerGameboard.ships).length === 5) {
       gameLoop();
-      return consoleMessage.innerText = `All ships deployed. Click on the right grid to attack!`;
+      return consoleMessage(`All ships deployed. Click on the right grid to attack!`, 'player');
     }
   }
 
@@ -49,17 +50,16 @@ function PlaceShipsInDom() {
     function playerGridClick(e) {
       if (e.target.className === 'playerGridDiv') {
         if (!shipType) {
-          return consoleMessage.innerText = `Click 'Deploy your fleet' to begin!`;
+          return consoleMessage(`Click 'Deploy your fleet' to begin!`, 'player');
         }
         if (Object.keys(playerGameboard.ships).length === 5) {
           playerGridParent.removeEventListener('click', playerGridClick);
           return;
         }
-        consoleMessage.innerText = null;
+        // consoleMessage.innerText = null;
         playerGameboard.shipLocation(shipType, convertIdStringToArray(e.target.id), orientation);
         if (shipType in playerGameboard.ships) {
           showShipOncePlaced(playerGameboard.ships[shipType].coordinates);
-          console.log(playerGameboard.ships)
           cycleThroughShips();
         }
       }
@@ -102,18 +102,54 @@ function PlaceShipsInDom() {
   }
 }
 
-function Player(name, shipArr, isHuman) {
-  return {
-    name,
-    shipArr,
-    isHuman: isHuman,
-    previousAttacks: []
+// function Player(name, shipArr) {
+//   return {
+//     name,
+//     shipArr,
+//     previousAttacks: []
+//   }
+// }
+
+function consoleMessage(message, type) {
+  let console;
+
+  if (type === 'player') {
+    console = document.querySelector('.playerConsoleMessage');
+  } else {
+    console = document.querySelector('.computerConsoleMessage');
   }
+  console.innerText = message;
 }
 
-function gameLoop() {
-  playerGameboard.playerAttackUsingGrid();
-  
+async function gameLoop() {
+  await computerGameboard.playerAttack();
+  showHitsAndMisses();
+  if (computerGameboard.allShipsSunk()) {
+    return consoleMessage(`You sunk all of your opponent's ships, you win!`, 'player');
+  }
+  await playerGameboard.computerAttack();
+  showHitsAndMisses();
+  if (playerGameboard.allShipsSunk()) {
+    return consoleMessage(`You sunk all of your opponent's ships, you win!`, 'computer');
+  }
+  gameLoop();
+}
+
+// populate the grids with hits and misses
+function showHitsAndMisses() {
+  let playerGrid = document.querySelectorAll('.playerGridDiv');
+  let computerGrid = document.querySelectorAll('.computerGridDiv');
+
+  for (let i of playerGrid) {
+    if (playerGameboard.prevAttackCoordinates.includes(i.id)) {
+      i.innerHTML = `<img src="./images/X symbol.png" alt="X Symbol" height='30' width='30'>`;
+    }
+  }
+  for (let i of computerGrid) {
+    if (computerGameboard.prevAttackCoordinates.includes(i.id)) {
+      i.innerHTML = `<img src="./images/X symbol.png" alt="X Symbol" height='30' width='30'>`;
+    }
+  }
 }
 
 export function Ship(name, length) {
@@ -128,7 +164,7 @@ export function Ship(name, length) {
     checkSunk: function() {
       if (this.hits === this.length) {
         this.isSunk = true;
-        document.querySelector('.consoleMessage').innerText = `You sunk your opponent's ${this.name}!`;
+        consoleMessage(`You sunk your opponent's ${this.name}!`, 'player');
       }
     }};
 }
@@ -140,10 +176,18 @@ export function Gameboard() {
   let totalSunk = 0;
   let validCoordinates = [];
   let usedCoordinates = [];
-  let consoleMessage = document.querySelector('.consoleMessage');
-
+  let prevAttackCoordinates = [];
+  
 
   boardCoordinates(10); // board size defined here
+
+  function turnToggle() {
+    if (turn === 'player') {
+      turn = 'computer';
+    } else {
+      turn = 'player';
+    }
+  }
 
   function clearShipsArray() {
     ships = {};
@@ -151,7 +195,9 @@ export function Gameboard() {
 
   function allShipsSunk() {
     if (totalSunk === 5) {
-      return true
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -195,7 +241,7 @@ export function Gameboard() {
           }
         }
         if (checkEntireShipIsWithinGameboard(carrier.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Carrier there, part of it is outside of the gameboard.`;
+          return consoleMessage(`You cannot place the Carrier there, part of it is outside of the gameboard.`, 'player');
         }
         usedCoordinates.push(...carrier.coordinates);
         ships.carrier = carrier;
@@ -214,10 +260,10 @@ export function Gameboard() {
           }
         }
         if (checkEntireShipIsWithinGameboard(battleship.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Battleship there, part of it is outside of the gameboard.`;
+          return consoleMessage(`You cannot place the Battleship there, part of it is outside of the gameboard.`, 'player');
         }
         if (checkShipDoesNotIntersectWithOthers(battleship.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Carrier there. There is already a vessel in that position.`;
+          return consoleMessage(`You cannot place the Carrier there. There is already a vessel in that position.`, 'player');
         }
         usedCoordinates.push(...battleship.coordinates);
         ships.battleship = battleship;
@@ -236,10 +282,10 @@ export function Gameboard() {
           }
         }
         if (checkEntireShipIsWithinGameboard(destroyer.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Destoyer there, part of it is outside of the gameboard.`;
+          return consoleMessage(`You cannot place the Destoyer there, part of it is outside of the gameboard.`, 'player');
         }
         if (checkShipDoesNotIntersectWithOthers(destroyer.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Destroyer there. There is already a vessel in that position.`;
+          return consoleMessage(`You cannot place the Destroyer there. There is already a vessel in that position.`, 'player');
         }
         usedCoordinates.push(...destroyer.coordinates);
         ships.destroyer = destroyer;
@@ -256,12 +302,12 @@ export function Gameboard() {
           for (let i = 0; i <= submarine.length - 1; i++) {
             submarine['coordinates'].push(`${startCoord[0]},${startCoord[1] + i}`)
           }
-        }
+        }// *** keep fixing these!
         if (checkEntireShipIsWithinGameboard(submarine.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Submarine there, part of it is outside of the gameboard.`;
+          return consoleMessage(`You cannot place the Submarine there, part of it is outside of the gameboard.`, 'player');
         }
         if (checkShipDoesNotIntersectWithOthers(submarine.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Submarine there. There is already a vessel in that position.`;
+          return consoleMessage(`You cannot place the Submarine there. There is already a vessel in that position.`, 'player');
         }
         usedCoordinates.push(...submarine.coordinates);
         ships.submarine = submarine;
@@ -280,10 +326,10 @@ export function Gameboard() {
           }
         }
         if (checkEntireShipIsWithinGameboard(patrolBoat.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Patrol Boat there, part of it is outside of the gameboard.`;
+          return consoleMessage(`You cannot place the Patrol Boat there, part of it is outside of the gameboard.`, 'player');
         }
         if (checkShipDoesNotIntersectWithOthers(patrolBoat.coordinates)) {
-          return consoleMessage.innerText = `You cannot place the Patrol Boat there. There is already a vessel in that position.`;
+          return consoleMessage(`You cannot place the Patrol Boat there. There is already a vessel in that position.`, 'player');
         }
         usedCoordinates.push(...patrolBoat.coordinates);
         ships.patrolBoat = patrolBoat;
@@ -293,41 +339,67 @@ export function Gameboard() {
     }
   }
 
-  function playerAttackUsingGrid() {
+  function playerAttack() {
     let computerGrid = document.querySelectorAll('.computerGridDiv');
     let computerGridParent = document.querySelector('.computerGrid');
-
-    computerGridParent.addEventListener('click', attackComputer);
-
-    function attackComputer(e) {
-      if (e.target.className === 'computerGridDiv') {
-        computerGameboard.receiveAttack(computer, e.target.id);
-        computerGridParent.removeEventListener('click', attackComputer);
-      }
-    }
-
-    // *** keep working on this - may need to convert to Promise so gameloop() waits for a return on this before proceeding
-    // see chrome window
 
     for (let i of computerGrid) {
       i.addEventListener('mouseenter', () => i.style.background = 'red');
       i.addEventListener('mouseleave', () => i.style.background = '');
     }
+
+    return new Promise ((resolve) => {
+      function attackComputer(e) {
+        if (e.target.className === 'computerGridDiv') {
+          computerGameboard.receiveAttack(e.target.id);
+          computerGridParent.removeEventListener('click', attackComputer);
+          turnToggle();
+          resolve();
+        }
+      }
+      computerGridParent.addEventListener('click', attackComputer);
+    })
+
+    // example of returning promies from an event
+    // function getPromiseFromEvent(item, event) {
+    //   return new Promise((resolve) => {
+    //     const listener = () => {
+    //       item.removeEventListener(event, listener);
+    //       // resolve();
+    //     }
+    //     item.addEventListener(event, listener);
+    //   })
+    // }
   }
 
-  function receiveAttack(humanOrAi, attackCoordinates) {
-    // if (attackCoordinates[0] > 10 || attackCoordinates[1] > 10 || attackCoordinates[0] < 1 || attackCoordinates[1] < 1 ) {
-    //   return consoleMessage.innerText = `You cannot attack there. The gameboard size is 10 x 10.`;
-    // }
+  function computerAttack() {
+    let coord = `${randomNum(1,10)},${randomNum(1,10)}`;
 
-    let hitArray = [];
-    if (humanOrAi.previousAttacks.includes(attackCoordinates)) {
-      return consoleMessage.innerText = 'You have already tried that coordinate.';
+    if (this.prevAttackCoordinates.includes(coord)) {
+      computerAttack();
     }
-    humanOrAi.previousAttacks.push(attackCoordinates);
+    return new Promise ((resolve) => {
+      this.receiveAttack(coord);
+      resolve();
+    })
+  }
+
+  function randomNum(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  function receiveAttack(attackCoordinates) {
+    console.log(turn);
+    let hitArray = [];
+    if (this.prevAttackCoordinates.includes(attackCoordinates)) {
+      return consoleMessage('You have already tried that coordinate.', 'player');
+    }
+    this.prevAttackCoordinates.push(attackCoordinates);
     for (let i in this.ships) {
       if (this.ships[i].coordinates.some(elem => elem === attackCoordinates)) {
-        consoleMessage.innerText = `That's a hit!`;
+        consoleMessage(`That's a hit!`, turn);
         this.ships[i].hit();
         this.ships[i].checkSunk();
         if (this.ships[i].isSunk) totalSunk++;
@@ -337,15 +409,18 @@ export function Gameboard() {
       }
     }
     if (hitArray.every(elem => !elem)) {
-      consoleMessage.innerText = `That's a miss!`;
+      consoleMessage(`That's a miss!`, turn);
     }
   }
 
   return {
     shipLocation,
-    receiveAttack,
     clearShipsArray,
-    playerAttackUsingGrid,
-    ships
+    receiveAttack,
+    playerAttack,
+    computerAttack,
+    allShipsSunk,
+    ships,
+    prevAttackCoordinates
   };
 };

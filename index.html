@@ -11,11 +11,6 @@
   <div class="topDiv"><h1 class="mainTitle">Welcome to Battleship</h1></div>
   <div class="mainDiv">
     <div class="mainLeft">
-      <label for="shotCoords">Artillery Coordinates</label>
-      <input type="text" name="shotCoords" id="shotCoords">
-      <input type="button" value="Fire!" class='fireBtn'>
-      
-      
       <div class="deploymentContainer">
         <input type="button" value="Deploy your fleet" class='deployBtn'>
         <h3 class='orientationTitle'>Orientation</h3>
@@ -275,8 +270,11 @@
     </div>
   </div>
   <div class="bottomDiv">
-    <div class="console">
-      <span class="consoleMessage"></span>
+    <div class="playerConsole">
+      <span>Player: </span><span class="playerConsoleMessage"></span>
+    </div><br>
+    <div class="computerConsole">
+      <span>Computer: </span><span class="computerConsoleMessage"></span>
     </div>
   </div>
 

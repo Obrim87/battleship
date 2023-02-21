@@ -47,4 +47,9 @@
 .playerGridDiv, .playerGridDivLabel, .computerGridDiv, .computerGridDivLabel {
   border: 1px black solid;
   text-align: center;
+  padding: 15px;
+}
+
+.playerGridDiv, .computerGridDiv {
+  padding: 8px;
 }
